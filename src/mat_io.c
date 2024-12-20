@@ -47,7 +47,7 @@ void printToScreen(Matrix *mat)
 		printf("  ");
 		for (j = 0; j < mat->c; j++)
 		{
-			printf("%f ", mat->data[i][j]);
+			printf("%f%s", mat->data[i][j], j == mat->c - 1 ? "" : " ");
 		}
 		printf("; \n");
 	}

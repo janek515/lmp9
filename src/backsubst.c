@@ -1,4 +1,6 @@
 #include "backsubst.h"
+#include <math.h>
+
 /**
  * Zwraca 0 - wsteczne podstawienie zakonczone sukcesem
  * Zwraca 1 - błąd dzielenia przez 0 (element na diagonali = 0)
@@ -15,7 +17,7 @@ int backsubst(Matrix *x, Matrix *mat, Matrix *b)
 	{
 		double *row = mat->data[i];
 		double x_n = b->data[i][0];
-		if (row[i] == 0)
+		if (fabs(row[i]) < __FLT_EPSILON__)
 		{
 			return 1;
 		}

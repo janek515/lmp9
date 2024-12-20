@@ -24,9 +24,12 @@ int eliminate(Matrix *mat, Matrix *b)
 
         if (iMaxAbs != k)
         {
-            double *temp = mat->data[k];
+            double *tempA = mat->data[k];
+            double *tempB = b->data[k];
             mat->data[k] = mat->data[iMaxAbs];
-            mat->data[iMaxAbs] = temp;
+            b->data[k] = b->data[iMaxAbs];
+            mat->data[iMaxAbs] = tempA;
+            b->data[iMaxAbs] = tempB;
         }
 
         if (mat->data[k][k] == 0)
