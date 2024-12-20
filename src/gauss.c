@@ -8,9 +8,32 @@ int eliminate(Matrix *mat, Matrix *b)
 {
     int n = mat->r;
     for (int k = 0; k < n - 1; k++) {
-        if (mat->data[k][k] == 0) {
-            return 1;
+        // Znajdź wiersz z największym elementem w kolumnie k
+        int max_row = k;
+        for (int i = k + 1; i < n; i++) {
+            if (fabs(mat->data[i][k]) > fabs(mat->data[max_row][k])) {
+                max_row = i;
+            }
         }
+
+        // Zamień wiersze, jeśli maksymalny element nie jest w wierszu k
+        if (max_row != k) {
+            for (int j = 0; j < mat->c; j++) {
+                double temp = mat->data[k][j];
+                mat->data[k][j] = mat->data[max_row][j];
+                mat->data[max_row][j] = temp;
+            }
+            double temp_b = b->data[k][0];
+            b->data[k][0] = b->data[max_row][0];
+            b->data[max_row][0] = temp_b;
+        }
+
+        // Sprawdź, czy po zamianie element diagonalny nie jest równy 0
+        if (mat->data[k][k] == 0) {
+            return 1; // Dzielenie przez 0
+        }
+
+        // Eliminacja Gaussa
         for (int i = k + 1; i < n; i++) {
             double factor = mat->data[i][k] / mat->data[k][k];
             for (int j = k; j < mat->c; j++) {
@@ -21,3 +44,4 @@ int eliminate(Matrix *mat, Matrix *b)
     }
     return 0;
 }
+
