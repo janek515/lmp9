@@ -6,16 +6,25 @@
  */
 int backsubst(Matrix *x, Matrix *mat, Matrix *b)
 {
-	/**
-	 * Tutaj należy umieścić właściwą implemntację.
-	 */
-
-	/* To ponizej jest przepisaniem b do x. Nalezy to poprawic! */
-
-	int i;
-	for (i = 0; i < x->r; i++)
+	if (x->r != mat->c || b->r != mat->r || mat->r != mat->c)
 	{
-		x->data[i][0] = b->data[i][0];
+		return 2;
+	}
+
+	for (int i = x->r - 1; i >= 0; i--)
+	{
+		double *row = mat->data[i];
+		double x_n = b->data[i][0];
+		if (row[i] == 0)
+		{
+			return 1;
+		}
+		for (int j = mat->c - 1; j > i; j--)
+		{
+			x_n -= row[j] * x->data[j][0];
+		}
+		x_n /= row[i];
+		x->data[i][0] = x_n;
 	}
 
 	return 0;
